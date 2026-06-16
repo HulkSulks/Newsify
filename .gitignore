@@ -24,5 +24,13 @@ ENV/
 *.swp
 *.swo
 
+# PyInstaller
+build/
+*.spec
+
+# Temp files
+~$*
+update_doc.py
+
 # Project specific
 fake_news_history.csv

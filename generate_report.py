@@ -35,12 +35,20 @@ def create_report():
             else:
                 runner.add_picture(image_path)
 
+    def add_code_block(text):
+        table = doc.add_table(rows=1, cols=1, style='Table Grid')
+        p = table.rows[0].cells[0].paragraphs[0]
+        run = p.add_run(text)
+        run.font.name = 'Courier New'
+        run.font.size = Pt(9)
+        doc.add_paragraph()
+
     # ================== PAGE 1 ==================
     add_paragraph("\n\n")
     add_paragraph("PROJECT REPORT", align=WD_ALIGN_PARAGRAPH.CENTER, bold=True).runs[0].font.size = Pt(16)
     add_paragraph("On", align=WD_ALIGN_PARAGRAPH.CENTER)
-    add_paragraph("NEWSIFY", align=WD_ALIGN_PARAGRAPH.CENTER, bold=True).runs[0].font.size = Pt(18)
-    add_paragraph("(Fake News Detection Platform)", align=WD_ALIGN_PARAGRAPH.CENTER)
+    add_paragraph("HEALTHBRIDGE INDIA", align=WD_ALIGN_PARAGRAPH.CENTER, bold=True).runs[0].font.size = Pt(18)
+    add_paragraph("(Government Health Scheme Discovery & Eligibility Platform)", align=WD_ALIGN_PARAGRAPH.CENTER)
     add_paragraph("\nSubmitted in", align=WD_ALIGN_PARAGRAPH.CENTER)
     add_paragraph("PYTHON PROGRAMMING LAB", align=WD_ALIGN_PARAGRAPH.CENTER, bold=True).runs[0].font.size = Pt(14)
     add_paragraph("In", align=WD_ALIGN_PARAGRAPH.CENTER)
@@ -48,11 +56,11 @@ def create_report():
     add_paragraph("\nBy", align=WD_ALIGN_PARAGRAPH.CENTER)
     
     students = [
-        "AYUSH YANAMANDRA (25261A1461)",
-        "SAI AMAN (25261A1443)",
-        "KASTURI AKSHAYA (25261A1436)",
-        "SHIVAPURA SUHAAS (25261A1452)",
-        "LANKA VSN AISHWARYA JYOTHI (25261A1437)"
+        "M VISHNU GANESH (25261A1459)",
+        "MANASVI MUGADA (25261A1440)",
+        "ABHISHEK VARMA (25261A1433)",
+        "YASH DUBEY (25261A1462)",
+        "JOHN DANIEL PRATHIK (25261A1449)"
     ]
     for s in students:
         add_paragraph(s, align=WD_ALIGN_PARAGRAPH.CENTER, bold=True)
@@ -77,9 +85,9 @@ def create_report():
     add_paragraph("\nCERTIFICATE\n", align=WD_ALIGN_PARAGRAPH.CENTER, bold=True).runs[0].font.size = Pt(16)
     
     cert_text = (
-        "This is to certify that the laboratory project “NEWSIFY” has been submitted by "
-        "AYUSH YANAMANDRA (25261A1461), SAI AMAN (25261A1443), KASTURI AKSHAYA (25261A1436), "
-        "SHIVAPURA SUHAAS (25261A1452), LANKA VSN AISHWARYA JYOTHI (25261A1437) from "
+        "This is to certify that the laboratory project “HEALTHBRIDGE INDIA” has been submitted by "
+        "M VISHNU GANESH (25261A1459), MANASVI MUGADA (25261A1440), ABHISHEK VARMA (25261A1433), "
+        "YASH DUBEY (25261A1462), JOHN DANIEL PRATHIK (25261A1449) from "
         "Department of Mechanical and Mechatronics Engineering (MCT) to the Department of "
         "Mechanical and Mechatronics Engineering, Mahatma Gandhi Institute of Technology for "
         "B.Tech II-Sem, PYTHON PROGRAMMING LAB course during the academic year 2025–2026."
@@ -99,7 +107,7 @@ def create_report():
     add_paragraph("DECLARATION\n", align=WD_ALIGN_PARAGRAPH.CENTER, bold=True).runs[0].font.size = Pt(16)
     
     decl_text = (
-        "The successful completion of this project on “NEWSIFY” in the Python "
+        "The successful completion of this project on “HEALTHBRIDGE INDIA” in the Python "
         "Programming Laboratory would not have been possible without the guidance and support of "
         "many individuals. We would like to express our sincere gratitude to our Subject Faculty, Mr. "
         "TULASI DASU, Assistant Professor, Dept. of IT, for his continuous support, patience and "
@@ -213,12 +221,24 @@ def create_report():
     add_heading("5. System Architecture")
     doc.add_paragraph("Newsify is architected using a highly modular file structure to separate concerns and ensure maintainability. The codebase is broken down into the following modules:")
     
-    doc.add_paragraph("1. main.py (Entry Point): Orchestrates the application startup. It checks if the trained model (model.pkl) exists. If not, it can trigger the training process. It then launches the GUI.")
-    doc.add_paragraph("2. gui.py (Presentation Layer): Contains the `FakeNewsDetectorApp` class. It manages all Tkinter widgets, event bindings, thread dispatching, and UI state updates (like Dark Mode configuration).")
-    doc.add_paragraph("3. detector.py (Business Logic Layer): Responsible for loading the ML models via joblib. Exposes the `predict_news()` function which cleans input, transforms it via TF-IDF, predicts using Logistic Regression, and generates a dynamic explanation string.")
-    doc.add_paragraph("4. utils.py (Utility Layer): A collection of pure functions handling external data. Includes `fetch_url_text()` utilizing BeautifulSoup and `extract_image_text()` utilizing pytesseract.")
-    doc.add_paragraph("5. history.py (Data Layer): Manages the in-memory state of past predictions and handles CSV file exporting.")
-    doc.add_paragraph("6. trainer.py (Training Script): A standalone, imperative script that loads Kaggle datasets, cleans the data, fits the vectorizer, trains the model, tests its accuracy, and serializes the objects to disk.")
+    arch_table = doc.add_table(rows=1, cols=2, style='Table Grid')
+    hdr_cells = arch_table.rows[0].cells
+    hdr_cells[0].paragraphs[0].add_run('Module').bold = True
+    hdr_cells[1].paragraphs[0].add_run('Responsibility').bold = True
+    
+    modules = [
+        ("main.py", "Entry Point: Orchestrates the application startup. Checks for trained models and launches the GUI."),
+        ("gui.py", "Presentation Layer: Contains FakeNewsDetectorApp. Manages Tkinter widgets, thread dispatching, and UI state."),
+        ("detector.py", "Business Logic Layer: Loads ML models. Exposes predict_news() which transforms text and runs Logistic Regression."),
+        ("utils.py", "Utility Layer: Pure functions handling external data (BeautifulSoup for HTML, Pytesseract for OCR)."),
+        ("history.py", "Data Layer: Manages the in-memory state of past predictions and handles CSV file exporting."),
+        ("trainer.py", "Training Script: Standalone script that loads datasets, cleans data, trains the model, and serializes to disk.")
+    ]
+    
+    for mod, resp in modules:
+        row_cells = arch_table.add_row().cells
+        row_cells[0].text = mod
+        row_cells[1].text = resp
     doc.add_page_break()
 
     # PAGES 11-12
@@ -323,7 +343,7 @@ def train_and_evaluate(X_train, X_test, y_train, y_test):
     lr_accuracy = accuracy_score(y_test, lr_predictions)
     print(f"Accuracy: {lr_accuracy * 100:.2f}%")
     return lr_model"""
-    add_paragraph(code1)
+    add_code_block(code1)
     
     add_heading("10.2 Prediction Engine (detector.py)", level=2)
     code2 = """def predict_news(text):
@@ -348,7 +368,7 @@ def train_and_evaluate(X_train, X_test, y_train, y_test):
         "confidence": confidence,
         "explanation": generate_explanation(label, confidence, cleaned)
     }"""
-    add_paragraph(code2)
+    add_code_block(code2)
     
     add_heading("10.3 Multithreaded GUI Execution (gui.py)", level=2)
     code3 = """def analyze_url(self):
@@ -376,7 +396,7 @@ def run_url_analysis(self, url):
     except Exception as e:
         self.root.after(0, lambda: messagebox.showerror("Error", str(e)))
     self.root.after(0, self.analysis_complete)"""
-    add_paragraph(code3)
+    add_code_block(code3)
     doc.add_page_break()
 
     # PAGE 19
@@ -400,23 +420,28 @@ def run_url_analysis(self, url):
     add_heading("12. Testing")
     doc.add_paragraph("The application was subjected to rigorous manual testing to ensure reliability, graceful error handling, and GUI responsiveness. The representative test cases are documented below:")
     
-    add_paragraph("1. Valid URL Test", bold=True)
-    doc.add_paragraph("Input: A standard BBC News URL.\nExpected: Progress bar starts, text is fetched, model predicts REAL, history is updated.\nResult: Passed.")
+    table = doc.add_table(rows=1, cols=4, style='Table Grid')
+    hdr_cells = table.rows[0].cells
+    hdr_cells[0].paragraphs[0].add_run('Test Case').bold = True
+    hdr_cells[1].paragraphs[0].add_run('Input').bold = True
+    hdr_cells[2].paragraphs[0].add_run('Expected Result').bold = True
+    hdr_cells[3].paragraphs[0].add_run('Status').bold = True
     
-    add_paragraph("2. Invalid URL Test", bold=True)
-    doc.add_paragraph("Input: 'htp:/broken-link'\nExpected: Regex validator catches the format error immediately and shows a warning dialog without making a network request.\nResult: Passed.")
+    test_cases = [
+        ("Valid URL", "A standard BBC News URL", "Progress bar starts, text is fetched, model predicts REAL, history is updated", "Passed"),
+        ("Invalid URL", "'htp:/broken-link'", "Regex validator catches format error immediately and shows warning dialog", "Passed"),
+        ("404 Error", "Perfectly formatted URL leading to a dead page", "requests.get() throws 404, caught gracefully showing error dialog", "Passed"),
+        ("Valid Image OCR", "Clear screenshot of an article", "Pytesseract extracts text accurately, model runs prediction", "Passed"),
+        ("Non-Image Upload", "Uploading a .pdf or .txt file instead of an image", "File dialog forces image extensions, preventing selection", "Passed"),
+        ("Concurrency", "Clicking 'Analyze URL' multiple times rapidly", "UI disables buttons upon first click, preventing thread stacking", "Passed")
+    ]
     
-    add_paragraph("3. 404 Error Test", bold=True)
-    doc.add_paragraph("Input: A perfectly formatted URL leading to a dead page.\nExpected: `requests.get()` throws a 404 error, caught by the try/except block, showing a graceful error dialog instead of crashing.\nResult: Passed.")
-    
-    add_paragraph("4. Valid Image OCR Test", bold=True)
-    doc.add_paragraph("Input: A clear screenshot of an article.\nExpected: Pytesseract extracts text accurately, model runs prediction.\nResult: Passed.")
-    
-    add_paragraph("5. Non-Image Upload Test", bold=True)
-    doc.add_paragraph("Input: Uploading a .pdf or .txt file instead of an image.\nExpected: The file dialog forces image extensions, preventing the selection. If bypassed, Pillow throws an error caught gracefully.\nResult: Passed.")
-    
-    add_paragraph("6. Concurrency Test", bold=True)
-    doc.add_paragraph("Input: Clicking 'Analyze URL' multiple times rapidly.\nExpected: The UI disables buttons upon the first click, preventing thread stacking and crashes.\nResult: Passed.")
+    for tc, inp, exp, status in test_cases:
+        row_cells = table.add_row().cells
+        row_cells[0].text = tc
+        row_cells[1].text = inp
+        row_cells[2].text = exp
+        row_cells[3].text = status
     doc.add_page_break()
 
     # PAGE 21
@@ -441,7 +466,7 @@ def run_url_analysis(self, url):
     doc.add_paragraph("• Kaggle Fake and Real News Dataset by Clément Bisaillon — https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset")
     doc.add_paragraph("• Pandas Data Manipulation — https://pandas.pydata.org/docs/")
 
-    doc.save('Newsify_Project_Report_v2.docx')
+    doc.save('Newsify_Project_Report_v3.docx')
 
 if __name__ == "__main__":
     create_report()
