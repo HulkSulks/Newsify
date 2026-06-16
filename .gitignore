@@ -28,6 +28,9 @@ ENV/
 build/
 *.spec
 
+# Documentation source files
+*.docx
+
 # Temp files
 ~$*
 update_doc.py
