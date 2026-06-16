@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# ML Models and Vectorizers
+*.pkl
+model.pkl
+vectorizer.pkl
+
+# Datasets
+datasets/*.csv
+
+# Virtual Environments
+venv/
+.env/
+env/
+ENV/
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Project specific
+fake_news_history.csv

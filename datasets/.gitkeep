@@ -1,0 +1,10 @@
+# Place your dataset files here:
+#
+#   datasets/
+#   ├── Fake.csv
+#   └── True.csv
+#
+# Download from Kaggle:
+#   https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset
+#
+# After downloading, extract the ZIP and copy Fake.csv and True.csv into this folder.
